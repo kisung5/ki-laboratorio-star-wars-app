@@ -3,7 +3,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Character {
     private String name;
-    private float height;
+    private String height;
+    private String birth_year;
 
     public String getName() {
         return name;
@@ -13,11 +14,15 @@ public class Character {
         this.name = name;
     }
 
-    public float getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(String height) {
         this.height = height;
     }
+
+    public String getBirth_year() { return birth_year; }
+
+    public void setBirth_year(String birth_year) { this.birth_year = birth_year; }
 }

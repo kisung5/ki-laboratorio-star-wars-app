@@ -7,6 +7,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -15,8 +17,13 @@ public class Main {
 //    }
 
     private static ObjectMapper mapper = new ObjectMapper();
+    private static ApiResponse<Character> parsedResponse = new ApiResponse<>();
 
     public static void main(String[] args) throws IOException, IOException {
+
+        GuiTable gui = new GuiTable();
+        List<Character> characters;
+
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet request = new HttpGet("https://swapi.dev/api/people");
@@ -30,7 +37,7 @@ public class Main {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     var result = EntityUtils.toString(entity);
-                    ApiResponse<Character> parsedResponse = mapper.readValue(
+                     parsedResponse = mapper.readValue(
                             result, mapper.getTypeFactory().constructParametricType(
                                     ApiResponse.class, Character.class));
                     System.out.println(result);
@@ -41,5 +48,22 @@ public class Main {
         } finally {
             httpClient.close();
         }
+
+        characters = parsedResponse.getResults();
+        List<String[]> characterlist = new ArrayList<String[]>();
+
+        for (Character character:characters) {
+            List<String> characterString = new ArrayList<String>();
+            characterString.add(character.getName());
+            characterString.add(character.getHeight());
+            characterString.add(character.getBirth_year());
+            String[] stringChar = characterString.toArray( new String[] {} ); //passing the toArray method
+            characterlist.add(stringChar);
+        }
+
+        gui.addTable(characterlist.toArray( new String[][]{} ));
+
+        gui.show();
+
     }
 }
