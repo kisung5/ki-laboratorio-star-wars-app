@@ -5,8 +5,6 @@ import javax.swing.JTable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import java.util.ArrayList;
-
 public class GuiTable {
 
     // frame

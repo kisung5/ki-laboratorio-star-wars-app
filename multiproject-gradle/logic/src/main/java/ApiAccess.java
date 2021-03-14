@@ -18,7 +18,7 @@ public class ApiAccess {
     private ObjectMapper mapper = new ObjectMapper();
     private ApiResponse<Character> parsedResponse = new ApiResponse<>();
 
-    public String[][] getSWAPI() throws IOException {
+    public String[][] getSWAPI(){
 
         Logger logger = LoggerFactory.getLogger(ApiAccess.class);
 
@@ -39,13 +39,16 @@ public class ApiAccess {
                             result, mapper.getTypeFactory().constructParametricType(
                                     ApiResponse.class, Character.class));
                 }
+            } catch(Exception e) {
+                logger.error(e.getMessage());
             }
             finally {
                 response.close();
             }
-        }
-        finally {
+
             httpClient.close();
+        } catch(Exception e) {
+            logger.error(e.getMessage());
         }
 
         List<Character> characters = parsedResponse.getResults();
